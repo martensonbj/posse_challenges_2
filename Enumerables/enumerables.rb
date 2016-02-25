@@ -2,41 +2,38 @@ require 'pry'
 
 class Enums
   def self.any?(collection, condition)
-    collection.each do |number|
-      return true if condition.call(number)
+    collection.each do |element|
+      return true if condition.call(element)
     end
     false
   end
 
   def self.select(collection, condition)
     output = []
-    collection.each do |number|
-      output.push(number) if condition.call(number)
+    collection.each do |element|
+      output.push(element) if condition.call(element)
     end
     return output
   end
 
   def self.reduce(collection, condition)
-    # output = []
-    collection.each do |element|
-      # reduction = condition.call(element)
-      # output.push(reduction)
-      element += condition.call(element)
-      binding.pry
+    if collection.first.class == Fixnum
+      sum = 0
+    else
+      sum = ""
     end
-    return element
+    collection.each do |element|
+      sum += condition.call(element)
+    end
+    return sum
   end
 
   def self.reject(collection, condition)
     output = []
-    collection.each do |number|
-      output.push(number) if !condition.call(number)
+    collection.each do |element|
+      output.push(element) if !condition.call(element)
     end
     return output
   end
 
 end
-
-# collection = ["Rachel", "Joanne", "Nate"]
-# condition = Proc.new { |a| "#{a} works at Turing." }
-# puts Enums.reduce(collection, condition)
